@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+
+import sys
+
+def factorize_rsa_number(file_path):
+    with open(file_path, 'r') as file:
+        number = int(file.readline())
+
+    factor = None
+    for i in range(2, int(number/2) + 1):
+        if number % i == 0:
+            factor = i
+            break
+
+    if factor is not None:
+        print(f"{number}={number // factor}*{factor}")
+    else:
+        print(f"{number}=Prime")
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+    factorize_rsa_number(sys.argv[1])

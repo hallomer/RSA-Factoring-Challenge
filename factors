@@ -1,24 +1,24 @@
 #!/usr/bin/python3
 
 import sys
+import math
 
 def factorize_numbers(file_path):
     with open(file_path, 'r') as file:
-        numbers = file.readlines()
-
-    for number in numbers:
-        number = int(number)
-        smallest_factor = None
-        for i in range(2, int(number/2) + 1):
-            if number % i == 0:
-                smallest_factor = i
-                break
-        if smallest_factor is not None:
-            print(f"{number}={smallest_factor}*{number // smallest_factor}")
-        else:
-            print(f"{number}=Prime")
+        for line in file:
+            number = int(line)
+            factor = None
+            for i in range(2, int(math.sqrt(number)) + 1):
+                if number % i == 0:
+                    factor = i
+                    break
+            if factor is not None:
+                print(f"{number}={number // factor}*{factor}")
+            else:
+                print(f"{number}=Prime")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
+        print("Usage: factors <file>")
         sys.exit(1)
     factorize_numbers(sys.argv[1])
