@@ -2,32 +2,23 @@
 
 import sys
 
-def factorize(num):
-    for i in range(2, int(num ** 0.5) + 1):
-        if num % i == 0:
-            return (i, num // i)
-    return None
+def factorize_numbers(file_path):
+    with open(file_path, 'r') as file:
+        numbers = file.readlines()
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        exit()
+    for number in numbers:
+        number = int(number)
+        smallest_factor = None
+        for i in range(2, int(number/2) + 1):
+            if number % i == 0:
+                smallest_factor = i
+                break
+        if smallest_factor is not None:
+            print(f"{number}={smallest_factor}*{number // smallest_factor}")
+        else:
+            print(f"{number}=Prime")
 
-
-    input_file = sys.argv[1]
-
-    try:
-        with open(input_file, 'r') as f:
-            lines = f.readlines()
-    except FileNotFoundError:
-        print("File not found")
-        exit()
-
-
-    for line in lines:
-        num = int(line.strip())
-
-        factors = factorize(num)
-
-        if factors:
-            print(f"{num} = {factors[0]} * {factors[1]}")
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        sys.exit(1)
+    factorize_numbers(sys.argv[1])
