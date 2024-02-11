@@ -1,21 +1,43 @@
 #!/usr/bin/python3
 
 import sys
+import math
 
 def factorize_rsa_number(file_path):
     with open(file_path, 'r') as file:
         number = int(file.readline())
 
-    factor = None
-    for i in range(2, int(number/2) + 1):
-        if number % i == 0:
-            factor = i
-            break
+    factor = factorize(number)
 
     if factor is not None:
-        print(f"{number}={number // factor}*{factor}")
+        print(f"{number}={factor}*{number // factor}")
     else:
         print(f"{number}=Prime")
+
+def factorize(n):
+    if n <= 1:
+        return None
+
+    while n % 2 == 0:
+        return 2
+
+    x = 2
+    y = 2
+    d = 1
+
+    def f(x):
+        return (x**2 + 1) % n
+
+    while d == 1:
+        x = f(x)
+        y = f(f(y))
+        d = math.gcd(abs(x - y), n)
+
+    if d == n:
+        return None
+    else:
+        return d
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: factors <file>")
